@@ -1,10 +1,10 @@
 # Table assigment problem
-    Assigns num persons to tables taking into account the following desirable
-    properties of a solution:
+    The table assigment problem is the problem of assigning tables for a 
+    number of people with the following desirable properties.
       - Avoid having unused seats in tables
       - If several tables are required, they should be near to each other
       - Select isolated tables
-        (far from occupied tables, or even big unoccupied tables)
+        (far from occupied tables, or big unoccupied tables)
 
     This greedy algorithm finds a solution in polinomial time (n^3),
     where n is the number of tables.
