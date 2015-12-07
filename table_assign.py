@@ -2,7 +2,7 @@ import math
 
 def _get_table_suggestions(tables, num):
     '''
-    The table assigment problem is the problem of assigning tables for a 
+    The table assigment problem is the problem of assigning tables for a
     number of people with the following desirable properties.
       - Avoid having unused seats in tables
       - If several tables are required, they should be near to each other
@@ -37,7 +37,8 @@ def _get_table_suggestions(tables, num):
     - The score is computed as the sum of the score of each seat if the table is
       selected.
     - The score of each seat in the table is computed as the F-measure if the
-      seat is occupied. The seat takes a negative constant value if it is not occupied.
+      seat is occupied. The seat takes a negative constant value if it is not
+      occupied.
     '''
     # the utility of an empty seat in an occupied table
     empty_seat_utility = -0.5
@@ -103,8 +104,8 @@ def _get_table_suggestions(tables, num):
                     if friends:
                         friends_sound_received += sound
                 unseated_ppl = toseat - table.capacity
-                if unseated_ppl<0:
-                    unseated_ppl=0
+                if unseated_ppl < 0:
+                    unseated_ppl = 0
                 precision = friends_sound_received/total_sound_received
                 recall = ppl1*friends_sound_received/num
                 F = 2*precision*recall/(precision+recall)
@@ -117,5 +118,3 @@ def _get_table_suggestions(tables, num):
             maxtable.available = 0
             toseat -= maxtable.capacity
     return ret
-
-
