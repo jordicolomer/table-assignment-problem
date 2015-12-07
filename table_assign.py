@@ -9,7 +9,7 @@ def _get_table_suggestions(tables, num):
       - Select isolated tables
         (far from occupied tables, or big unoccupied tables)
 
-    This greedy algorithm finds a solution in polinomial time (n^3),
+    This greedy algorithm finds a solution in polinomial time O(n^3),
     where n is the number of tables.
 
     Intuitively, the algorithm tries to optimize the aggregate of utilities
