@@ -25,7 +25,7 @@
     two persons. The distance is computed as the Euclidean distance of t1 and t2
     The distance has constant values on the special cases
     (t1 equals t2,
-    t1 and t2 belong in different rooms,
+    t1 and t2 belong to different rooms,
     t1 or t2 have no coordinates).
 
     - The algorithm iteratively selects tables until there is no more people
