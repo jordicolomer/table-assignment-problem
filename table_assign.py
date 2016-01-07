@@ -2,7 +2,7 @@ import math
 
 def _get_table_suggestions(tables, num):
     '''
-    The table assigment problem is the problem of assigning tables for a 
+    The table assigment problem is the problem of assigning tables for a
     number of people with the following desirable properties.
       - Avoid having unused seats in tables
       - If several tables are required, they should be near to each other
@@ -32,12 +32,15 @@ def _get_table_suggestions(tables, num):
     t1 or t2 have no coordinates).
 
     - The algorithm iteratively selects tables until there is no more people
-      to be seated.
+      to be seated. If possible, the first table selected belongs to a room with
+      enough space to seat everybody. In that case, only tables from that room
+      are selected in following iterations.
     - At each step the table with highest score is selected.
     - The score is computed as the sum of the score of each seat if the table is
       selected.
     - The score of each seat in the table is computed as the F-measure if the
-      seat is occupied. The seat takes a negative constant value if it is not occupied.
+      seat is occupied. The seat takes a negative constant value if it is not
+      occupied.
     '''
     # the utility of an empty seat in an occupied table
     empty_seat_utility = -0.5
@@ -55,6 +58,20 @@ def _get_table_suggestions(tables, num):
     distance_same_table = 1
     distance_different_rooms = 100.
     distance_unassigned_table = 2.
+
+    # if there exist at least one room with enough space
+    # remove all tables that belong to rooms without enough space
+    roomsize = {}
+    for table in tables:
+        if table.roomid not in roomsize:
+            roomsize[table.roomid] = 0
+        roomsize[table.roomid] += table.capacity
+    if max(roomsize.values()) >= num:
+        newtables = []
+        for table in tables:
+            if roomsize[table.roomid] >= num:
+                newtables.append(table)
+        tables = newtables
 
     ret = []
     if num > sum([table.available for table in tables]):
@@ -113,6 +130,15 @@ def _get_table_suggestions(tables, num):
                     maxutility = utility
                     maxtable = table
         if maxtable:
+            # if the room of the first selected table fits everybody
+            # choose only tables from the same room
+            if len(ret) == 0 and roomsize[maxtable.roomid] >= num:
+                newtables = []
+                for table in tables:
+                    if table.roomid == maxtable.roomid:
+                        newtables.append(table)
+                tables = newtables
+
             ret.append(maxtable)
             maxtable.available = 0
             toseat -= maxtable.capacity
