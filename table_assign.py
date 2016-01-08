@@ -66,7 +66,7 @@ def _get_table_suggestions(tables, num):
         if table.roomid not in roomsize:
             roomsize[table.roomid] = 0
         roomsize[table.roomid] += table.capacity
-    if max(roomsize.values()) >= num:
+    if roomsize and max(roomsize.values()) >= num:
         newtables = []
         for table in tables:
             if roomsize[table.roomid] >= num:

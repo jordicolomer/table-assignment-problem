@@ -66,33 +66,36 @@ def tables2str(tables, selected=None):
         for table in tables:
             if table.roomid == roomid:
                 roomtables.append(table)
-        maxx = max([table.table_location_horizontal for table in roomtables if not table.unassigned])
-        maxy = max([table.table_location_vertical for table in roomtables if not table.unassigned])
-        for j in range(1, maxy+1):
-            row = ''
-            for i in range(1, maxx+1):
-                tableij = None
-                for table in roomtables:
-                    if table.table_location_horizontal == i and table.table_location_vertical == j and not table.unassigned:
-                        tableij = table
-                if tableij:
-                    #print i,j
-                    #tableij._print()
-                    #print tableij.id
-                    bselected = False
-                    for sel in selected:
-                        if tableij.id == sel.id:
-                            bselected = True
-                    if bselected:
-                        row += '+'+str(tableij.capacity)
-                    elif tableij.available == 0:
-                        row += '*'+str(tableij.capacity)
+        table_locations_horizontal = [table.table_location_horizontal for table in roomtables if not table.unassigned]
+        table_locations_vertical = [table.table_location_vertical for table in roomtables if not table.unassigned]
+        if table_locations_horizontal and table_locations_vertical:
+            maxx = max(table_locations_horizontal)
+            maxy = max(table_locations_vertical)
+            for j in range(1, maxy+1):
+                row = ''
+                for i in range(1, maxx+1):
+                    tableij = None
+                    for table in roomtables:
+                        if table.table_location_horizontal == i and table.table_location_vertical == j and not table.unassigned:
+                            tableij = table
+                    if tableij:
+                        #print i,j
+                        #tableij._print()
+                        #print tableij.id
+                        bselected = False
+                        for sel in selected:
+                            if tableij.id == sel.id:
+                                bselected = True
+                        if bselected:
+                            row += '+'+str(tableij.capacity)
+                        elif tableij.available == 0:
+                            row += '*'+str(tableij.capacity)
+                        else:
+                            row += ' '+str(tableij.capacity)
                     else:
-                        row += ' '+str(tableij.capacity)
-                else:
-                    row += ' 0'
-            #print row
-            ret += row+'\n'
+                        row += ' 0'
+                #print row
+                ret += row+'\n'
         row = 'u'
         for table in roomtables:
             if table.unassigned:
@@ -284,5 +287,15 @@ s2='''
 +1+1+1+1+1+5
 
  1 1 1 1 1 5
+'''
+assert_output(s1, num, s2)
+
+
+s1='''
+u 1 1 1 1 1 5
+'''
+num = 9
+s2='''
+u+1+1+1+1 1+5
 '''
 assert_output(s1, num, s2)
