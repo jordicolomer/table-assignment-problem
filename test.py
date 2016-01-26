@@ -158,7 +158,7 @@ def random_tests():
             else:
                 print tables2str(tables, selected)
 
-random_tests()
+#random_tests()
 
 
 def assert_output(s1, num, s2=None):
@@ -173,129 +173,119 @@ def assert_output(s1, num, s2=None):
         else:
             print sres
 
-s1='''
- 2
- 1
- 1
-'''
-num = 3
-s2='''
-+2
-+1
- 1
-'''
-assert_output(s1, num, s2)
 
-s1='''
- 1 1 1
- 1 1 1
- 1 1 2
-'''
-num = 1
-s2='''
-+1 1 1
- 1 1 1
- 1 1 2
-'''
-assert_output(s1, num, s2)
+def test():
+    # one room with 3 tables with capacities 2, 1 and 1
+    s1 = ('\n'
+          '2'+'\n'
+          '1'+'\n'
+          '1'+'\n')
+    num = 3
+    # the + symbol indicates that the table has been selected
+    s2 = ('\n'
+          '+2'+'\n'
+          '+1'+'\n'
+          ' 1'+'\n')
 
-s1='''
-*1 1 1
- 1 1 1
- 1 1 1
-'''
-num = 1
-s2='''
-*1 1 1
- 1 1 1
- 1 1+1
-'''
-assert_output(s1, num, s2)
+    assert_output(s1, num, s2)
 
-s1='''
-*1 1 1
+    # one room with 9 tables
+    s1 = ('\n'
+          ' 1 1 1'+'\n'
+          ' 1 1 1'+'\n'
+          ' 1 1 2'+'\n')
+    num = 1
+    s2 = ('\n'
+          '+1 1 1'+'\n'
+          ' 1 1 1'+'\n'
+          ' 1 1 2'+'\n')
+    assert_output(s1, num, s2)
 
- 1 1 1
-'''
-num = 3
-s2='''
-*1 1 1
+    # one room with 9 tables, with one occupied table
+    s1 = ('\n'
+          '*1 1 1'+'\n'
+          ' 1 1 1'+'\n'
+          ' 1 1 1'+'\n')
+    num = 1
+    s2 = ('\n'
+          '*1 1 1'+'\n'
+          ' 1 1 1'+'\n'
+          ' 1 1+1'+'\n')
+    assert_output(s1, num, s2)
 
-+1+1+1
-'''
-assert_output(s1, num, s2)
+    # two rooms with 3 tables each. one occupied table.
+    s1 = ('\n'
+          '*1 1 1'+'\n'
+          '\n'
+          ' 1 1 1'+'\n')
+    num = 3
+    s2 = ('\n'
+          '*1 1 1'+'\n'
+          '\n'
+          '+1+1+1'+'\n')
+    assert_output(s1, num, s2)
 
-s1='''
- 1 2 1
+    # two rooms with 3 tables each.
+    s1 = ('\n'
+          ' 1 2 1'+'\n'
+          '\n'
+          ' 1 1 2'+'\n')
+    num = 1
+    s2 = ('\n'
+          ' 1 2 1'+'\n'
+          '\n'
+          '+1 1 2'+'\n')
+    assert_output(s1, num, s2)
 
- 1 1 2
-'''
-num = 1
-s2='''
- 1 2 1
+    # one room wiht with 2 tables
+    s1 = ('\n'
+          ' 1 2'+'\n')
+    num = 2
+    s2 = ('\n'
+          ' 1+2'+'\n')
+    num = 2
+    assert_output(s1, num, s2)
 
-+1 1 2
-'''
-assert_output(s1, num, s2)
+    # two rooms with 2 and 1 tables
+    s1 = ('\n'
+          ' 2 8'+'\n'
+          '\n'
+          ' 2'+'\n')
+    num = 4
+    s2 = ('\n'
+          ' 2+8'+'\n'
+          '\n'
+          ' 2'+'\n')
+    assert_output(s1, num, s2)
 
-s1='''
- 1 2
-'''
-num = 2
-s2='''
- 1+2
-'''
-num = 2
-assert_output(s1, num, s2)
+    s1 = ('\n'
+          ' 2 3'+'\n'
+          '\n'
+          ' 2 2 2'+'\n')
+    num = 6
+    s2 = ('\n'
+          ' 2 3'+'\n'
+          '\n'
+          '+2+2+2'+'\n')
+    assert_output(s1, num, s2)
 
+    s1 = ('\n'
+          ' 1 1 1 1 1 5'+'\n'
+          '\n'
+          ' 1 1 1 1 1 5'+'\n')
+    num = 10
+    s2 = ('\n'
+          '+1+1+1+1+1+5'+'\n'
+          '\n'
+          ' 1 1 1 1 1 5'+'\n')
+    assert_output(s1, num, s2)
 
-s1='''
- 2 8
-
- 2
-'''
-num = 4
-s2='''
- 2+8
-
- 2
-'''
-assert_output(s1, num, s2)
-
-
-s1='''
- 2 3
-
- 2 2 2
-'''
-num = 6
-s2='''
- 2 3
-
-+2+2+2
-'''
-assert_output(s1, num, s2)
-
-
-s1='''
- 1 1 1 1 1 5
-
- 1 1 1 1 1 5
-'''
-num = 10
-s2='''
-+1+1+1+1+1+5
-
- 1 1 1 1 1 5
-'''
-assert_output(s1, num, s2)
+    s1 = ('\n'
+          'u 1 1 1 1 1 5'+'\n')
+    num = 9
+    s2 = ('\n'
+          'u+1+1+1+1 1+5'+'\n')
+    assert_output(s1, num, s2)
 
 
-s1='''
-u 1 1 1 1 1 5
-'''
-num = 9
-s2='''
-u+1+1+1+1 1+5
-'''
-assert_output(s1, num, s2)
+test()
